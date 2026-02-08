@@ -1,0 +1,126 @@
+name: CI 测试 & 部署到 EC2
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  # ==========================================
+  # Job 1: 运行测试
+  # ==========================================
+  test:
+    name: 运行自动化测试
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 运行测试
+        run: npx vitest run --reporter=verbose --reporter=json --outputFile=test-report.json
+
+      - name: 上传测试报告
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-report
+          path: test-report.json
+
+  # ==========================================
+  # Job 2: 构建项目
+  # ==========================================
+  build:
+    name: 构建项目
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 构建
+        run: npm run build
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: build/
+
+  # ==========================================
+  # Job 3: 部署到 EC2
+  # ==========================================
+  deploy:
+    name: 部署到 EC2
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+
+    steps:
+      - name: 下载构建产物
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: build/
+
+      - name: 部署到 EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "build/*"
+          target: "/var/www/figma-app"
+          strip_components: 1
+
+      - name: 重启服务
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # 安装 nginx（如果未安装）
+            if ! command -v nginx &> /dev/null; then
+              sudo yum install -y nginx || sudo apt-get install -y nginx
+            fi
+            # 确保目录权限正确
+            sudo chown -R $USER:$USER /var/www/figma-app
+            # 配置 nginx（如果未配置）
+            if [ ! -f /etc/nginx/conf.d/figma.conf ]; then
+              sudo tee /etc/nginx/conf.d/figma.conf > /dev/null << 'NGINX'
+            server {
+                listen 80;
+                server_name _;
+                root /var/www/figma-app;
+                index index.html;
+                location / {
+                    try_files $uri $uri/ /index.html;
+                }
+            }
+            NGINX
+            fi
+            # 重启 nginx
+            sudo systemctl restart nginx
+            sudo systemctl enable nginx
+            echo "部署完成！"

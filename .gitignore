@@ -1,0 +1,7 @@
+node_modules/
+build/
+dist/
+coverage/
+test-report.json
+*.log
+.DS_Store
