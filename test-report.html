@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LOL 1v1 模拟器 - 自动化测试报告</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; line-height: 1.6; padding: 20px; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    h1 { text-align: center; font-size: 2rem; margin-bottom: 8px; background: linear-gradient(135deg, #ef4444, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #94a3b8; margin-bottom: 30px; font-size: 0.9rem; }
+
+    .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 30px; }
+    .summary-card { background: #1e293b; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #334155; }
+    .summary-card .number { font-size: 2.5rem; font-weight: 700; }
+    .summary-card .label { color: #94a3b8; font-size: 0.85rem; margin-top: 4px; }
+    .green { color: #22c55e; }
+    .blue { color: #3b82f6; }
+    .yellow { color: #eab308; }
+    .purple { color: #a855f7; }
+    .red { color: #ef4444; }
+
+    .coverage-section { background: #1e293b; border-radius: 12px; padding: 24px; margin-bottom: 24px; border: 1px solid #334155; }
+    .section-title { font-size: 1.3rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .coverage-table { width: 100%; border-collapse: collapse; }
+    .coverage-table th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #334155; color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; }
+    .coverage-table td { padding: 10px 12px; border-bottom: 1px solid #1e293b; }
+    .coverage-table tr:hover { background: #334155; }
+    .bar-container { background: #334155; border-radius: 4px; height: 8px; width: 100%; overflow: hidden; }
+    .bar { height: 100%; border-radius: 4px; transition: width 0.5s; }
+    .bar-green { background: #22c55e; }
+    .bar-yellow { background: #eab308; }
+    .bar-red { background: #ef4444; }
+
+    .test-suite { background: #1e293b; border-radius: 12px; padding: 24px; margin-bottom: 16px; border: 1px solid #334155; }
+    .suite-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; cursor: pointer; }
+    .suite-header h3 { font-size: 1.1rem; }
+    .badge { padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+    .badge-pass { background: #22c55e22; color: #22c55e; border: 1px solid #22c55e44; }
+
+    .test-group { margin-bottom: 12px; }
+    .group-title { color: #94a3b8; font-size: 0.85rem; margin-bottom: 6px; padding-left: 8px; border-left: 3px solid #3b82f6; }
+    .test-item { display: flex; align-items: center; gap: 8px; padding: 6px 0 6px 16px; font-size: 0.9rem; }
+    .test-item .icon { color: #22c55e; flex-shrink: 0; }
+    .test-item .time { color: #64748b; font-size: 0.75rem; margin-left: auto; }
+
+    .footer { text-align: center; color: #64748b; margin-top: 40px; padding-top: 20px; border-top: 1px solid #1e293b; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>LOL 1v1 对战模拟器</h1>
+    <p class="subtitle">自动化测试报告 | 生成时间: 2026-02-09</p>
+
+    <div class="summary">
+      <div class="summary-card">
+        <div class="number green">166</div>
+        <div class="label">测试通过</div>
+      </div>
+      <div class="summary-card">
+        <div class="number red">0</div>
+        <div class="label">测试失败</div>
+      </div>
+      <div class="summary-card">
+        <div class="number blue">3</div>
+        <div class="label">测试套件</div>
+      </div>
+      <div class="summary-card">
+        <div class="number yellow">365ms</div>
+        <div class="label">执行耗时</div>
+      </div>
+      <div class="summary-card">
+        <div class="number green">100%</div>
+        <div class="label">通过率</div>
+      </div>
+    </div>
+
+    <!-- 覆盖率 -->
+    <div class="coverage-section">
+      <div class="section-title">📊 代码覆盖率</div>
+      <table class="coverage-table">
+        <thead>
+          <tr><th>模块</th><th>语句</th><th>分支</th><th>函数</th><th>行</th><th>覆盖率</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>src/utils/combat.ts</strong></td>
+            <td class="green">93.89%</td><td class="green">86.20%</td><td class="green">100%</td><td class="green">93.89%</td>
+            <td><div class="bar-container"><div class="bar bar-green" style="width:93.89%"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>src/data/heroes.ts</strong></td>
+            <td class="green">100%</td><td class="green">100%</td><td class="green">100%</td><td class="green">100%</td>
+            <td><div class="bar-container"><div class="bar bar-green" style="width:100%"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>src/data/items.ts</strong></td>
+            <td class="green">100%</td><td class="green">100%</td><td class="green">100%</td><td class="green">100%</td>
+            <td><div class="bar-container"><div class="bar bar-green" style="width:100%"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>src/types/index.ts</strong></td>
+            <td class="yellow">0%</td><td class="yellow">0%</td><td class="yellow">0%</td><td class="yellow">0%</td>
+            <td><div class="bar-container"><div class="bar bar-yellow" style="width:0%"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>src/pages/*</strong></td>
+            <td class="yellow">0%</td><td class="yellow">0%</td><td class="yellow">0%</td><td class="yellow">0%</td>
+            <td><div class="bar-container"><div class="bar bar-yellow" style="width:0%"></div></div></td>
+          </tr>
+          <tr>
+            <td><strong>src/components/*</strong></td>
+            <td class="yellow">0%</td><td class="yellow">0%</td><td class="yellow">0%</td><td class="yellow">0%</td>
+            <td><div class="bar-container"><div class="bar bar-yellow" style="width:0%"></div></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 测试套件 1: 战斗系统 -->
+    <div class="test-suite">
+      <div class="suite-header">
+        <h3>⚔️ combat.test.ts — 战斗系统核心测试</h3>
+        <span class="badge badge-pass">36 PASSED</span>
+      </div>
+
+      <div class="test-group">
+        <div class="group-title">calculateStats - 属性计算 (8)</div>
+        <div class="test-item"><span class="icon">✅</span> 1级无装备时应返回基础属性 <span class="time">1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 等级成长应正确计算 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 18级属性应正确计算（满级） <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 装备加成应正确叠加 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 多件装备属性应累加 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 吸血属性应正确计算 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 攻速应为乘法叠加 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 无装备时暴击伤害应为基础175 <span class="time">&lt;1ms</span></div>
+      </div>
+
+      <div class="test-group">
+        <div class="group-title">calculateDPS - DPS计算 (6)</div>
+        <div class="test-item"><span class="icon">✅</span> 无暴击无护甲穿透时DPS应正确 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 护甲减伤应正确应用 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 护甲穿透应减少有效护甲 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 护甲穿透不应导致负护甲 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 暴击应增加平均伤害 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 攻速应线性增加DPS <span class="time">&lt;1ms</span></div>
+      </div>
+
+      <div class="test-group">
+        <div class="group-title">calculateBurstDamage - 爆发伤害 (5)</div>
+        <div class="test-item"><span class="icon">✅</span> 6级以下不应计入R技能伤害 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 真实伤害不应被护甲/魔抗减免 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 魔法伤害应受魔抗减免 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 应包含3次普攻伤害 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> AD加成应影响技能伤害 <span class="time">&lt;1ms</span></div>
+      </div>
+
+      <div class="test-group">
+        <div class="group-title">calculateEffectiveHP - 有效生命值 (5)</div>
+        <div class="test-item"><span class="icon">✅</span> 无护甲/魔抗时有效HP等于实际HP <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 护甲应增加物理有效HP <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 魔抗应增加魔法有效HP <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 双抗应同时增加有效HP <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 更高的HP基础应产生更高的有效HP <span class="time">&lt;1ms</span></div>
+      </div>
+
+      <div class="test-group">
+        <div class="group-title">simulateCombat - 战斗模拟 (12)</div>
+        <div class="test-item"><span class="icon">✅</span> 应返回有效的战斗结果 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 胜率应在15-85之间 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 胜者应为hero1或hero2 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 剩余生命百分比应大于等于0 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 击杀时间应在0-20秒之间 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 先手优势应影响战斗结果 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 点燃应增加先手方伤害 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 不同操作水平应产生不同的战斗结果 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 装备应影响战斗结果 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 关键因素数组不应为空 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 伤害分解应包含hero1和hero2 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 所有英雄两两对战都应返回有效结果（15组对战） <span class="time">&lt;1ms</span></div>
+      </div>
+    </div>
+
+    <!-- 测试套件 2: 数据完整性 -->
+    <div class="test-suite">
+      <div class="suite-header">
+        <h3>📦 data.test.ts — 数据完整性 & 平衡性</h3>
+        <span class="badge badge-pass">126 PASSED</span>
+      </div>
+
+      <div class="test-group">
+        <div class="group-title">Heroes Data - 英雄数据完整性 (63)</div>
+        <div class="test-item"><span class="icon">✅</span> 应有6个英雄 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 所有英雄ID应唯一 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 应包含所有预期英雄（亚索/剑姬/武器/诺手/瑞文/劫） <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 每个英雄: 基础属性为正数、成长属性非负、四个技能完整... <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 每个英雄: 技能名称/描述/伤害类型/CD 验证 (×6 英雄 ×10 项) <span class="time">&lt;1ms</span></div>
+      </div>
+
+      <div class="test-group">
+        <div class="group-title">Items Data - 装备数据完整性 (59)</div>
+        <div class="test-item"><span class="icon">✅</span> 应有至少10件装备（实际14件） <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 所有装备ID应唯一 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 应包含核心装备（无尽/三相/黑切/饮血） <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 每件装备: 价格正数、有名称、有属性加成、属性非负 (×14) <span class="time">&lt;1ms</span></div>
+      </div>
+
+      <div class="test-group">
+        <div class="group-title">Data Balance - 数据平衡性 (4)</div>
+        <div class="test-item"><span class="icon">✅</span> 英雄1级HP应在合理范围 (400-700) <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 英雄基础攻击力应在合理范围 (50-80) <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 英雄移速应在合理范围 (325-355) <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 装备价格应在合理范围 (2000-4000) <span class="time">&lt;1ms</span></div>
+      </div>
+    </div>
+
+    <!-- 测试套件 3: 类型验证 -->
+    <div class="test-suite">
+      <div class="suite-header">
+        <h3>🔧 types.test.ts — 类型验证</h3>
+        <span class="badge badge-pass">4 PASSED</span>
+      </div>
+      <div class="test-group">
+        <div class="group-title">Type Validation - 类型验证 (4)</div>
+        <div class="test-item"><span class="icon">✅</span> 英雄数据应符合HeroStats接口 <span class="time">1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 装备数据应符合Item接口 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> CombatSettings 默认值测试 <span class="time">&lt;1ms</span></div>
+        <div class="test-item"><span class="icon">✅</span> 操作水平枚举值应完整（6个段位） <span class="time">&lt;1ms</span></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      LOL 1v1 对战模拟器 | Vitest v4.0.18 | Node.js 20 | 报告生成于 2026-02-09
+    </div>
+  </div>
+</body>
+</html>
