@@ -1,0 +1,51 @@
+name: Deploy Admin To AWS
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      CDK_DEFAULT_REGION: ${{ vars.AWS_REGION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        id: configure_aws_credentials
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Install infra dependencies
+        working-directory: infra
+        run: npm ci
+
+      - name: CDK Bootstrap (idempotent)
+        working-directory: infra
+        run: npx cdk bootstrap aws://${{ steps.configure_aws_credentials.outputs.aws-account-id }}/${{ vars.AWS_REGION }}
+
+      - name: Deploy stack
+        working-directory: infra
+        run: npx cdk deploy --require-approval never
